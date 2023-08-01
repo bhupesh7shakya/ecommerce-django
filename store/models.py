@@ -41,5 +41,34 @@ class Address(models.Model):
     tole_name=models.CharField(max_length=100)
     
 
-# class Order(models.Model):
+class Order(models.Model):
+    PENDING_STATUS='P'
+    COMPLETED_STATUS='C'
+    FAILED_STATUS='F'
+    
+    PAYMENT_STATUS=[
+        (PENDING_STATUS,"Pending"),
+        (COMPLETED_STATUS,'Completed'),
+        (FAILED_STATUS,"Failed")
+    ]
+    place_at=models.DateTimeField(auto_now=True)
+    payment_status=models.CharField(max_length=1,choices=PAYMENT_STATUS,default=PENDING_STATUS)
+    constumer=models.ForeignKey('Customer',on_delete=models.PROTECT)
+
+class OrderItem(models.Model):
+    order=models.ForeignKey("Order",on_delete=models.PROTECT)
+    product=models.ForeignKey("Product",on_delete=models.PROTECT)
+    quantity=models.PositiveSmallIntegerField()
+    price=models.FloatField()
+
+
+
+class Cart(models.Model):
+    constumer=models.ForeignKey('Customer',on_delete=models.PROTECT)
+
+class CartItem(models.Model):
+    cart=models.ForeignKey("Cart",on_delete=models.CASCADE)
+    product=models.ForeignKey("Product",on_delete=models.CASCADE)
+    quantity=models.PositiveSmallIntegerField()
+    price=models.FloatField()
     
