@@ -35,6 +35,7 @@ class Customer(models.Model):
     contact = models.IntegerField()
     membership=models.CharField(max_length=1,choices=MEMBERSHIP,default=BRONZE_MEMBER)
 
+
 class Address(models.Model):
     customer = models.OneToOneField('Customer', on_delete=models.CASCADE,)
     street_name=models.CharField(max_length=100)
