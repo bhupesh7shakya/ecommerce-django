@@ -35,6 +35,8 @@ class Customer(models.Model):
     contact = models.IntegerField()
     membership=models.CharField(max_length=1,choices=MEMBERSHIP,default=BRONZE_MEMBER)
 
+    def __str__(self) -> str:
+        return f"{self.firstname} ({self.contact})"
 
 class Address(models.Model):
     customer = models.OneToOneField('Customer', on_delete=models.CASCADE,)
