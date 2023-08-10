@@ -3,9 +3,10 @@ from decimal import Decimal
 from rest_framework import serializers
 from . import models
 class CateogrySerializer(serializers.ModelSerializer):
+    product_count=serializers.IntegerField(read_only=True)
     class Meta:
         model = models.Category
-        fields='__all__'
+        fields=['title','product_count']
     
 class ProductSerializer(serializers.ModelSerializer):
     
