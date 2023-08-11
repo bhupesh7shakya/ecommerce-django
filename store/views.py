@@ -9,7 +9,13 @@ from . import serializers
 from django.db.models import Count
 from rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView
 from rest_framework.viewsets import ModelViewSet
+from django_filters.rest_framework import DjangoFilterBackend
+from .filters import ProductFilter
+from rest_framework.filters import SearchFilter,OrderingFilter
+from rest_framework.pagination import PageNumberPagination
 # Create your views here.
+
+
 
 
 
@@ -20,16 +26,11 @@ class CategoryViewset(ModelViewSet):
 
 
     
-
-@api_view(['GET'])
-def product_list(request):
-    products = Product.objects.select_related('category').all()
-    serializer=serializers.ProductSerializer(products,many=True)
-    return Response(serializer.data)
-
-
-@api_view(['GET'])
-def product_detail(request,id):
-    product=get_object_or_404(Product,id=id)
-    serializer=serializers.ProductSerializer(product)
-    return Response(serializer.data)
+class ProductViewset(ModelViewSet):
+    queryset=Product.objects.select_related('category').all()
+    serializer_class=serializers.ProductSerializer
+    filter_backends =(DjangoFilterBackend,SearchFilter,OrderingFilter)
+    filterset_class  = ProductFilter
+    search_fields =['name',]
+    ordering_fields=['price']
+    pagination_class=PageNumberPagination
