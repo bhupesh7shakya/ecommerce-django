@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django_filters',
     'rest_framework',
     'store',
+    'authentication',
     "debug_toolbar",
 ]
 
@@ -155,3 +156,5 @@ REST_FRAMEWORK = {
     ),
     'PAGE_SIZE':10
 }
+
+AUTH_USER_MODEL='authentication.User'

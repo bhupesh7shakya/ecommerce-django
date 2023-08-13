@@ -16,10 +16,6 @@ from rest_framework.pagination import PageNumberPagination
 # Create your views here.
 
 
-
-
-
-
 class CategoryViewset(ModelViewSet):
    queryset=Category.objects.all()
    serializer_class = serializers.CateogrySerializer
