@@ -26,3 +26,13 @@ class UserSerializer(serializers.ModelSerializer):
         user.set_password(password)
         user.save()
         return user
+    
+    
+class UserLoginSerializer(serializers.ModelSerializer):
+    id= serializers.IntegerField(read_only=True)
+    username=serializers.CharField(max_length=255)
+    password=serializers.CharField(write_only=True)
+    token=serializers.CharField(read_only=True)
+    class Meta:
+        model=User
+        fields=['id','username','password','token']

@@ -13,6 +13,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 from .filters import ProductFilter
 from rest_framework.filters import SearchFilter,OrderingFilter
 from rest_framework.pagination import PageNumberPagination
+from rest_framework import permissions
+from . import permissions as pd
 # Create your views here.
 
 
@@ -30,3 +32,4 @@ class ProductViewset(ModelViewSet):
     search_fields =['name',]
     ordering_fields=['price']
     pagination_class=PageNumberPagination
+    permission_classes=[permissions.IsAuthenticatedOrReadOnly,pd.isAdminOrNot]
