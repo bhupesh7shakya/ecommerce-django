@@ -1,4 +1,7 @@
 from django.db import models
+from django.contrib.auth import get_user_model
+
+User=get_user_model()
 
 # Create your models here.
 
@@ -34,7 +37,8 @@ class Customer(models.Model):
     lastname = models.CharField(max_length=100)
     contact = models.IntegerField()
     membership=models.CharField(max_length=1,choices=MEMBERSHIP,default=BRONZE_MEMBER)
-
+    customer=models.ForeignKey(User,on_delete=models.CASCADE)
+    
     def __str__(self) -> str:
         return f"{self.firstname} ({self.contact})"
 
@@ -56,7 +60,7 @@ class Order(models.Model):
     ]
     place_at=models.DateTimeField(auto_now=True)
     payment_status=models.CharField(max_length=1,choices=PAYMENT_STATUS,default=PENDING_STATUS)
-    constumer=models.ForeignKey('Customer',on_delete=models.PROTECT)
+    user=models.ForeignKey(User,on_delete=models.PROTECT)
 
 class OrderItem(models.Model):
     order=models.ForeignKey("Order",on_delete=models.PROTECT)
@@ -67,11 +71,11 @@ class OrderItem(models.Model):
 
 
 class Cart(models.Model):
-    constumer=models.ForeignKey('Customer',on_delete=models.PROTECT)
+    user=models.ForeignKey(User,on_delete=models.PROTECT,related_name="users_cart")
 
 class CartItem(models.Model):
-    cart=models.ForeignKey("Cart",on_delete=models.CASCADE)
-    product=models.ForeignKey("Product",on_delete=models.CASCADE)
+    cart=models.ForeignKey("Cart",on_delete=models.CASCADE,related_name="cart_items")
+    product=models.ForeignKey("Product",on_delete=models.CASCADE,related_name="cart_products")
     quantity=models.PositiveSmallIntegerField()
     price=models.FloatField()
     

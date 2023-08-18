@@ -44,3 +44,11 @@ class OrerItemInline(admin.TabularInline):
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     inlines=[OrerItemInline]
+    
+    
+class CartItemInline(admin.TabularInline):
+    model=CartItem
+    
+@admin.register(Cart)
+class CartAdmin(admin.ModelAdmin):
+    inlines=[CartItemInline]
